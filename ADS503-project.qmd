@@ -1,0 +1,142 @@
+---
+title: "ADS503 Project"
+group: "#1"
+names: "Jason Avalos, Lindy Conrad"
+---
+## Libraries
+```{r}
+library(tidyverse)
+library(caret)
+library(pROC)
+library(randomForest)
+library(e1071)
+library(glmnet)
+library(corrplot)
+```
+
+## Load Data
+
+```{r}
+# Loads Sirtuin6 Small Molecules Dataset: The dataset includes 100 molecules with 6 most relevant descriptors to determine the candidate inhibitors of a target protein, Sirtuin6. The molecules are grouped based on their low- and high-BFEs.
+data <- read.csv(
+  file = "/Users/lindenconrad/Desktop/USD/ADS 503/Final Project/SIRTUIN6.csv",
+  header = TRUE,
+  stringsAsFactors = FALSE
+)
+
+head(data)
+```
+```{r}
+summary(data)
+```
+
+
+```{r}
+predictors <- setdiff(names(data), "Class")
+
+# Loop through each predictor and print each histogram
+for (var in predictors) {
+  p <- ggplot(data, aes_string(x = var)) +
+    geom_histogram(bins = 25) +
+    labs(
+      title = paste("Histogram of", var),
+      x     = var,
+      y     = "Count"
+    ) +
+    theme_minimal()
+  
+  print(p)
+}
+```
+
+
+```{r}
+#Corrolation Matrix
+corr_mat <- cor(select(data, -Class))
+corrplot(corr_mat, method="color", tl.cex=0.7)
+```
+
+
+```{r}
+# Center & scale all predictors
+preProc <- preProcess(select(data, -Class), method = c("center","scale"))
+data_pp <- predict(preProc, select(data, -Class))
+data_pp$Class <- data$Class
+```
+
+
+```{r}
+#80/20 Train Test Set Split
+set.seed(123)
+trainIndex <- createDataPartition(data_pp$Class, p = 0.8, list = FALSE)
+train <- data_pp[trainIndex, ]
+test  <- data_pp[-trainIndex, ]
+table(train$Class); table(test$Class)
+```
+
+
+```{r}
+ctrl <- trainControl(
+  method = "cv", 
+  number = 5,
+  classProbs = TRUE,
+  summaryFunction = twoClassSummary,
+  savePredictions = TRUE
+)
+
+#Models
+
+#Logistic Regression 
+set.seed(123)
+lrFit <- train(
+  Class ~ ., data = train,
+  method = "glm",
+  metric = "ROC",
+  trControl = ctrl
+)
+
+lrFit
+
+# Random Forest 
+set.seed(123)
+rfGrid <- expand.grid(mtry = 2:6)
+rfFit <- train(
+  Class ~ ., data = train,
+  method=  "rf",
+  metric = "ROC",
+  trControl= ctrl,
+  tuneGrid = rfGrid,
+  ntree = 500
+)
+
+rfFit
+
+#SVM RBF
+set.seed(123)
+svmGrid <- expand.grid(
+  C = c(0.1, 1, 10),
+  sigma = c(0.01, 0.05, 0.1)
+)
+svmFit <- train(
+  Class ~ ., data = train,
+  method = "svmRadial",
+  metric = "ROC",
+  trControl= ctrl,
+  tuneGrid = svmGrid
+)
+
+svmFit
+```
+
+
+```{r}
+# Hyperparameter Tuning 
+lrFit$bestTune
+rfFit$bestTune
+svmFit$bestTune
+```
+
+```{r}
+
+```
+
