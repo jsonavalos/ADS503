@@ -20,7 +20,7 @@ library(corrplot)
 ```{r}
 # Loads Sirtuin6 Small Molecules Dataset: The dataset includes 100 molecules with 6 most relevant descriptors to determine the candidate inhibitors of a target protein, Sirtuin6. The molecules are grouped based on their low- and high-BFEs.
 data <- read.csv(
-  file = paste(getwd(), "/SIRTUIN6.csv", sep = ""),
+  file = "/Users/lindenconrad/Desktop/USD/ADS 503/Final Project/SIRTUIN6.csv",
   header = TRUE,
   stringsAsFactors = FALSE
 )
@@ -193,4 +193,43 @@ summary(resamps)
 lrFitImp <- varImp(lrFit, scale = FALSE) #update
 plot(lrFitImp)
 ```
+```{r}
+# Used the following two lines to ick the positive class
+# prob_cols <- colnames(predict(lrFit, test, type = "prob"))
+# print(prob_cols)
+positive <- "High_BFE"
+negative <- setdiff(levels(test$Class), positive)
+
+# Compute ROCs objects and 95% CIs
+roc_lr <- pROC::roc(response  = test$Class, predictor = predict(lrFit,    test, type = "prob")[, positive])
+ci_lr <- pROC::ci.auc(roc_lr)
+
+roc_rf <- pROC::roc(response  = test$Class, predictor = predict(rfFit,    test, type = "prob")[, positive])
+ci_rf <- pROC::ci.auc(roc_rf)
+
+roc_svm <- pROC::roc(response  = test$Class, predictor = predict(svmFit,   test, type = "prob")[, positive])
+ci_svm <- pROC::ci.auc(roc_svm)
+
+roc_lasso <- pROC::roc(response  = test$Class, predictor = predict(lassoFit, test, type = "prob")[, positive])
+ci_lasso  <- pROC::ci.auc(roc_lasso)
+
+ci_df <- data.frame(
+  Model = c("Logistic Regression", "Random Forest", "SVM RBF", "Lasso"),
+  AUC_Lower = c(ci_lr[1], ci_rf[1], ci_svm[1], ci_lasso[1]),
+  AUC = c(ci_lr[2], ci_rf[2], ci_svm[2], ci_lasso[2]),
+  AUC_Upper = c(ci_lr[3], ci_rf[3], ci_svm[3], ci_lasso[3]),
+  stringsAsFactors = FALSE
+)
+
+cat("AUC with 95% CI for each model:\n")
+print(ci_df)
+```
+```{r}
+
+```
+
+```{r}
+
+```
+
 
