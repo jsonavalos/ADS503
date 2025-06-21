@@ -1,6 +1,6 @@
-# ADS503
+# ADS503 Project: Sirtuin6 Small Molecule Classification
 
-
+names: "Jason Avalos, Lindy Conrad, Duy-Anh Dang"
 
 ---
 
@@ -144,23 +144,5 @@ SOFTWARE.
 [Back To The Top](#ADS503)
 
 
-
----
-title: "ADS503 Project"
-group: "#1"
-names: "Jason Avalos, Lindy Conrad"
----
-
-# ADS503 Project: Sirtuin6 Small Molecule Classification
-
-## Description
-
-This project aims to classify small molecules as potential inhibitors of the Sirtuin6 protein based on six chemical descriptors. The dataset includes 100 molecules labeled with "High_BFE" or "Low_BFE" classes. We use various supervised learning models to evaluate their predictive performance using ROC-AUC as the key metric.
-
-The overall pipeline includes exploratory data analysis, data preprocessing (normalization), model training (with hyperparameter tuning), evaluation using cross-validation, and selection of the best-performing model.
-
----
-
-## Setup & Reproducibility
 
 
