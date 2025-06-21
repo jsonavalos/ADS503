@@ -1,6 +1,6 @@
 # ADS503 
 
-names: "Jason Avalos, Lindy Conrad, Duy-Anh Dang"
+names: Jason Avalos, Lindy Conrad, Duy-Anh Dang
 
 ---
 
