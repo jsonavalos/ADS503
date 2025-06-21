@@ -1,4 +1,4 @@
-# ADS503 Project: Sirtuin6 Small Molecule Classification
+# ADS503 
 
 names: "Jason Avalos, Lindy Conrad, Duy-Anh Dang"
 
@@ -114,7 +114,7 @@ Security: If hosted, secure access to model endpoints and protect against advers
 - corrplot: Visualizing correlation matrices
 
 
-[Back To The Top](#ADS503 Project: Sirtuin6 Small Molecule Classification)
+[Back To The Top](#ADS503)
 
 ---
 
@@ -141,7 +141,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-[Back To The Top](#ADS503 Project: Sirtuin6 Small Molecule Classification)
+[Back To The Top](#ADS503)
 
 
 
