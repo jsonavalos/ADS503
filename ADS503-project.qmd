@@ -1,7 +1,7 @@
 ---
 title: "ADS503 Project"
 group: "#1"
-names: "Jason Avalos, Lindy Conrad"
+names: "Jason Avalos, Lindy Conrad, Duy-Anh Dang"
 ---
 ## Libraries
 ```{r setup, include=FALSE}
@@ -20,7 +20,7 @@ library(corrplot)
 ```{r}
 # Loads Sirtuin6 Small Molecules Dataset: The dataset includes 100 molecules with 6 most relevant descriptors to determine the candidate inhibitors of a target protein, Sirtuin6. The molecules are grouped based on their low- and high-BFEs.
 data <- read.csv(
-  file = "/Users/lindenconrad/Desktop/USD/ADS 503/Final Project/SIRTUIN6.csv",
+  file = "./SIRTUIN6.csv",
   header = TRUE,
   stringsAsFactors = FALSE
 )
@@ -224,12 +224,36 @@ ci_df <- data.frame(
 cat("AUC with 95% CI for each model:\n")
 print(ci_df)
 ```
+
+## Final Model Summary
+
+We selected Random Forest based on the highest ROC AUC of 0.95.This means it is not only highly predictive but also more stable than others.  
+Its performance on the test set:
+
+- AUC: [value] (95% CI: 0.8467, 0.95)
+
+While SVM and Lasso also perform well (AUC = 0.91), their lower bounds are weaker. Logistic Regression is the least stable (wide CI) and lowest AUC.
+
+ROC curve is provided:
+
+
 ```{r}
+plot(roc_lr, col = "blue", legacy.axes = TRUE, main = "ROC Curves")
+plot(roc_rf, col = "green", add = TRUE)
+plot(roc_svm, col = "red", add = TRUE)
+plot(roc_lasso, col = "purple", add = TRUE)
+legend("bottomright", legend = c("Logistic", "Random Forest", "SVM", "Lasso"),
+       col = c("blue", "green", "red", "purple"), lwd = 2)
 
 ```
 
 ```{r}
 
 ```
+
+
+
+
+
 
 

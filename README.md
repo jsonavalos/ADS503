@@ -37,13 +37,13 @@ To ensure reproducibility:
 
 **Required Libraries:**
 
-library(tidyverse)
-library(caret)
-library(pROC)
-library(randomForest)
-library(e1071)
-library(glmnet)
-library(corrplot)
+- library(tidyverse)
+- library(caret)
+- library(pROC)
+- library(randomForest)
+- library(e1071)
+- library(glmnet)
+- library(corrplot)
 
 This project is designed to be fully reproducible from the GitHub repository. Follow these steps to set up the pipeline locally:
 
